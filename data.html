@@ -3,84 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Résultats du Sondage</title>
+    <title>Sondage sur l'IoT</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
+            margin-top: 20px;
+            background-color: #fff;
         }
         th, td {
             padding: 12px;
+            border: 1px solid #ddd;
             text-align: left;
         }
         th {
-            background-color: #f4f4f4;
+            background-color: #007bff;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
         }
     </style>
-    <script src="script.js"></script>
 </head>
 <body>
-    <h1>Résultats du Sondage - IoT Survey</h1>
-
-    <table id="resultatsTable">
+    <h1>Résultats du Sondage sur l'IoT</h1>
+    <table id="resultsTable">
         <thead>
             <tr>
-                <th>Adresse mail</th>
-                <th>Rôle</th>
+                <th>Rôle dans l'organisation</th>
                 <th>Utilisation de dispositifs IoT</th>
-                <th>Types de dispositifs IoT</th>
-                <th>Problèmes de sécurité</th>
-                <th>Fréquence de surveillance</th>
-                <th>Fonctionnalités intéressantes</th>
-                <th>Méthode de notification</th>
-                <th>Suggestions</th>
-                <th>Informer des développements</th>
+                <th>Types de dispositifs IoT utilisés</th>
+                <th>Problèmes de sécurité rencontrés</th>
+                <th>Fréquence de surveillance des dispositifs IoT</th>
+                <th>Fonctionnalités souhaitées</th>
+                <th>Méthode d'alerte préférée</th>
+                <th>Suggestions et préoccupations</th>
+                <th>Souhait d'information sur le projet</th>
             </tr>
         </thead>
         <tbody>
-            <!-- To insert data here -->
+            <!-- Les résultats seront insérés ici -->
         </tbody>
     </table>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script>
-        const url = "https://docs.google.com/spreadsheets/d/e/1jHQSpy5Vle6Jdu-X2JwLfxH8AuhCfif1lK3v6OzD3FU/pub?output=csv";
+        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/1jHQSpy5Vle6Jdu-X2JwLfxH8AuhCfif1lK3v6OzD3FU/pub?output=csv';
 
-        async function fetchCSV() {
-            const response = await fetch(url);
-            const csvText = await response.text();
-            const data = d3.csvParse(csvText);
-            processCSV(data);
-        }
+        fetch(csvUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('La réponse du réseau n\'était pas correcte : ' + response.statusText);
+                }
+                return response.text();
+            })
+            .then(data => {
+                const parsedData = Papa.parse(data, { header: true });
+                populateTable(parsedData.data);
+            })
+            .catch(error => {
+                console.error('Il y a eu un problème avec l\'opération de récupération :', error);
+            });
 
-        function processCSV(data) {
-            const tableBody = document.querySelector("#resultatsTable tbody");
+        function populateTable(data) {
+            const tableBody = document.getElementById('resultsTable').querySelector('tbody');
+            tableBody.innerHTML = ''; // Efface le contenu existant
 
             data.forEach(row => {
-                const rowElement = document.createElement("tr");
-                rowElement.innerHTML = `
-                    <td>${row["Adresse mail"]}</td>
-                    <td>${row["Quel est votre rôle dans votre organisation ?"]}</td>
-                    <td>${row["Utilisez-vous actuellement des dispositifs IoT dans votre environnement ?"]}</td>
-                    <td>${row["Si oui, quels types de dispositifs IoT utilisez-vous ? (cochez toutes les réponses applicables)"]}</td>
-                    <td>${row["Avez-vous déjà rencontré des problèmes de sécurité avec vos dispositifs IoT ?"]}</td>
-                    <td>${row["À quelle fréquence surveillez vous l'état de vos dispositifs IoT ?"]}</td>
-                    <td>${row["Quelles fonctionnalités seriez vous le plus intéressé à avoir dans un système de surveillance IoT ? (cochez toutes les réponses applicables)"]}</td>
-                    <td>${row["Comment préférez-vous être averti en cas d'anomalie détectée ?"]}</td>
-                    <td>${row["Avez-vous des suggestions ou des préoccupations concernant la sécurité des dispositifs IoT ?"]}</td>
-                    <td>${row["Souhaitez-vous être informé des développements concernant ce projet ?"]}</td>
-                `;
-                tableBody.appendChild(rowElement);
+                const tr = document.createElement('tr');
+                for (const key in row) {
+                    const td = document.createElement('td');
+                    td.textContent = row[key] || 'N/A'; // Affiche 'N/A' si la valeur est vide
+                    tr.appendChild(td);
+                }
+                tableBody.appendChild(tr);
             });
         }
-
-        fetchCSV();
     </script>
 </body>
 </html>

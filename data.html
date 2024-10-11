@@ -37,15 +37,12 @@
         </tr>
     </thead>
     <tbody>
-        <!-- Les réponses seront ajoutées ici dynamiquement -->
     </tbody>
 </table>
 
 <script>
-    // Lien vers le fichier JSON de Google Sheets
     const url = 'https://spreadsheets.google.com/feeds/list/1jHQSpy5Vle6Jdu-X2JwLfxH8AuhCfif1lK3v6OzD3FU/od6/public/values?alt=json';
 
-    // Récupération des données et affichage dans le tableau
     fetch(url)
         .then(response => response.json())
         .then(data => {
@@ -53,7 +50,6 @@
             data.feed.entry.forEach(entry => {
                 const row = document.createElement("tr");
 
-                // Ajout des données de chaque colonne
                 const role = document.createElement("td");
                 role.textContent = entry.gsx$quelestvotreroledansvotreorganisation.$t;
                 row.appendChild(role);
@@ -90,7 +86,6 @@
                 souhaitInformation.textContent = entry.gsx$souhaitezvousêtreinformédesdéveloppementsconcernantceprojet.$t;
                 row.appendChild(souhaitInformation);
 
-                // Ajout de la ligne au tableau
                 tableBody.appendChild(row);
             });
         })

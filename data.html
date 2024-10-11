@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sondage sur l'IoT</title>
+    <title>Résultats du Sondage IoT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            padding: 0;
             background-color: #f4f4f4;
         }
         h1 {
+            text-align: center;
             color: #333;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            background-color: #fff;
         }
         th, td {
             padding: 12px;
@@ -26,15 +26,21 @@
             text-align: left;
         }
         th {
-            background-color: #007bff;
+            background-color: #007BFF;
             color: white;
         }
-        tr:hover {
-            background-color: #f1f1f1;
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .error {
+            color: red;
+            text-align: center;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </head>
 <body>
+
     <h1>Résultats du Sondage sur l'IoT</h1>
     <table id="resultsTable">
         <thead>
@@ -51,43 +57,37 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Les résultats seront insérés ici -->
+            <!-- Les données seront insérées ici -->
         </tbody>
     </table>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <div class="error" id="error-message"></div>
+
     <script>
-        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/pub?output=csv';
+        const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/pub?output=csv';
 
-        fetch(csvUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('La réponse du réseau n\'était pas correcte : ' + response.statusText);
+        Papa.parse(url, {
+            download: true,
+            complete: function(results) {
+                const data = results.data;
+                const tableBody = document.getElementById('resultsTable').querySelector('tbody');
+
+                // Remplir le tableau avec les données
+                for (let i = 1; i < data.length; i++) { // Commence à 1 pour ignorer l'en-tête
+                    const row = document.createElement('tr');
+                    data[i].forEach(cell => {
+                        const td = document.createElement('td');
+                        td.textContent = cell || 'N/A'; // Si la cellule est vide, afficher 'N/A'
+                        row.appendChild(td);
+                    });
+                    tableBody.appendChild(row);
                 }
-                return response.text();
-            })
-            .then(data => {
-                const parsedData = Papa.parse(data, { header: true });
-                populateTable(parsedData.data);
-            })
-            .catch(error => {
-                console.error('Il y a eu un problème avec l\'opération de récupération :', error);
-            });
-
-        function populateTable(data) {
-            const tableBody = document.getElementById('resultsTable').querySelector('tbody');
-            tableBody.innerHTML = ''; // Efface le contenu existant
-
-            data.forEach(row => {
-                const tr = document.createElement('tr');
-                for (const key in row) {
-                    const td = document.createElement('td');
-                    td.textContent = row[key] || 'N/A'; // Affiche 'N/A' si la valeur est vide
-                    tr.appendChild(td);
-                }
-                tableBody.appendChild(tr);
-            });
-        }
+            },
+            error: function(error) {
+                const errorMessage = document.getElementById('error-message');
+                errorMessage.textContent = "Il y a eu un problème avec l'opération de récupération : " + error.message;
+            }
+        });
     </script>
 </body>
 </html>

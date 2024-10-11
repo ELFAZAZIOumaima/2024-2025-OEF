@@ -3,94 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Réponses du Google Form sur l'IoT</title>
+    <title>Résultats du Sondage sur l'IoT</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
         }
         th, td {
-            border: 1px solid black;
-            padding: 10px;
-            text-align: center;
+            padding: 12px;
+            text-align: left;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #f4f4f4;
         }
     </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
 </head>
 <body>
+    <h1>Résultats du Sondage sur l'IoT</h1>
 
-<h1>Réponses du Google Form sur l'IoT</h1>
-<table id="responsesTable">
-    <thead>
-        <tr>
-            <th>Rôle dans l'organisation</th>
-            <th>Utilisation de dispositifs IoT</th>
-            <th>Types de dispositifs IoT utilisés</th>
-            <th>Problèmes de sécurité rencontrés</th>
-            <th>Fréquence de surveillance des dispositifs IoT</th>
-            <th>Fonctionnalités souhaitées</th>
-            <th>Méthode d'alerte préférée</th>
-            <th>Suggestions et préoccupations</th>
-            <th>Souhait d'information sur le projet</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+    <table id="resultatsTable">
+        <thead>
+            <tr>
+                <th>Rôle dans l'organisation</th>
+                <th>Utilisation de dispositifs IoT</th>
+                <th>Types de dispositifs IoT utilisés</th>
+                <th>Problèmes de sécurité rencontrés</th>
+                <th>Fréquence de surveillance des dispositifs IoT</th>
+                <th>Fonctionnalités souhaitées</th>
+                <th>Méthode d'alerte préférée</th>
+                <th>Suggestions et préoccupations</th>
+                <th>Souhait d'information sur le projet</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Les données seront insérées ici -->
+        </tbody>
+    </table>
 
-<script>
-    const url = 'https://spreadsheets.google.com/feeds/list/1jHQSpy5Vle6Jdu-X2JwLfxH8AuhCfif1lK3v6OzD3FU/od6/public/values?alt=json';
+    <script>
+        const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1jHQSpy5Vle6Jdu-X2JwLfxH8AuhCfif1lK3v6OzD3FU/pub?output=csv";
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            const tableBody = document.querySelector("#responsesTable tbody");
-            data.feed.entry.forEach(entry => {
-                const row = document.createElement("tr");
+        // Fonction pour traiter le fichier CSV
+        async function fetchCSV() {
+            const response = await fetch(url);
+            const csvText = await response.text();
+            const data = d3.csvParse(csvText);
+            processCSV(data);
+        }
 
-                const role = document.createElement("td");
-                role.textContent = entry.gsx$quelestvotreroledansvotreorganisation.$t;
-                row.appendChild(role);
+        // Fonction pour traiter les données CSV
+        function processCSV(data) {
+            const tableBody = document.querySelector("#resultatsTable tbody");
 
-                const utilisationIoT = document.createElement("td");
-                utilisationIoT.textContent = entry.gsx$utilisezvousactuellementdesdispositifsiotdansvotreenvironnement.$t;
-                row.appendChild(utilisationIoT);
+            data.forEach(row => {
+                const rowElement = document.createElement("tr");
 
-                const typesIoT = document.createElement("td");
-                typesIoT.textContent = entry.gsx$sivousquelstypesdedispositifsiotutilisezvouscocheztouteslesréponsesapplicables.$t;
-                row.appendChild(typesIoT);
-
-                const problemesSecurite = document.createElement("td");
-                problemesSecurite.textContent = entry.gsx$avezvousdéjàrencontrédesproblèmesdesécuritéavecvosdispositifsiot.$t;
-                row.appendChild(problemesSecurite);
-
-                const frequenceSurveillance = document.createElement("td");
-                frequenceSurveillance.textContent = entry.gsx$àquellefréquencesurveillezvouslétatdevosdispositifsiot.$t;
-                row.appendChild(frequenceSurveillance);
-
-                const fonctionnalitesSouhaitees = document.createElement("td");
-                fonctionnalitesSouhaitees.textContent = entry.gsx$quellesfonctionnalitéesseriezvousleplusintéresséàavoirdansunsystèmedesurveillanceiotcocheztouteslesréponsesapplicables.$t;
-                row.appendChild(fonctionnalitesSouhaitees);
-
-                const methodeAlerte = document.createElement("td");
-                methodeAlerte.textContent = entry.gsx$commentpréférezvousêtreavertiencasdanomaliedétectée.$t;
-                row.appendChild(methodeAlerte);
-
-                const suggestionsPreoccupations = document.createElement("td");
-                suggestionsPreoccupations.textContent = entry.gsx$avezvousdessuggestionsoudespréoccupationsconcernantlasécuritédesdispositifsiot.$t;
-                row.appendChild(suggestionsPreoccupations);
-
-                const souhaitInformation = document.createElement("td");
-                souhaitInformation.textContent = entry.gsx$souhaitezvousêtreinformédesdéveloppementsconcernantceprojet.$t;
-                row.appendChild(souhaitInformation);
-
-                tableBody.appendChild(row);
+                // Création des données pour chaque colonne
+                rowElement.innerHTML = `
+                    <td>${row["Rôle dans l'organisation"]}</td>
+                    <td>${row["Utilisation de dispositifs IoT"]}</td>
+                    <td>${row["Types de dispositifs IoT utilisés"]}</td>
+                    <td>${row["Problèmes de sécurité rencontrés"]}</td>
+                    <td>${row["Fréquence de surveillance des dispositifs IoT"]}</td>
+                    <td>${row["Fonctionnalités souhaitées"]}</td>
+                    <td>${row["Méthode d'alerte préférée"]}</td>
+                    <td>${row["Suggestions et préoccupations"]}</td>
+                    <td>${row["Souhait d'information sur le projet"]}</td>
+                `;
+                tableBody.appendChild(rowElement);
             });
-        })
-        .catch(error => console.error('Erreur lors de la récupération des données:', error));
-</script>
+        }
 
+        // Appelle la fonction lorsque les données sont téléchargées
+        fetchCSV();
+    </script>
 </body>
 </html>

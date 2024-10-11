@@ -1,5 +1,5 @@
 # 2024-2025-OEF
-Intitulé du projet : Analyse des besoins citoyens dans une ville intelligente
+Intitulé du projet : Analyse des besoins citoyens dans une ville intelligente.
 Ce projet vise à collecter et analyser les besoins des citoyens d'une ville en transition vers un modèle intelligent. L'objectif est d'améliorer les services publics (transports, sécurité, propreté etc) grâce à l'utilisation de technologies connectées et de données collectées directement auprès des habitants.
 
 Acteurs du projet :

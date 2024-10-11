@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Résultats du Sondage</title>
+    <title>Résultats du Sondage sur l'IoT</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,34 +24,34 @@
             background-color: #f4f4f4;
         }
     </style>
-    <script src="script.js"></script>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
 </head>
 <body>
-    <h1>Résultats du Sondage - IoT Survey</h1>
+    <h1>Résultats du Sondage sur l'IoT</h1>
 
     <table id="resultatsTable">
         <thead>
             <tr>
-                <th>Adresse mail</th>
-                <th>Rôle</th>
+                <th>Rôle dans l'organisation</th>
                 <th>Utilisation de dispositifs IoT</th>
-                <th>Types de dispositifs IoT</th>
-                <th>Problèmes de sécurité</th>
-                <th>Fréquence de surveillance</th>
-                <th>Fonctionnalités intéressantes</th>
-                <th>Méthode de notification</th>
-                <th>Suggestions</th>
-                <th>Informer des développements</th>
+                <th>Types de dispositifs IoT utilisés</th>
+                <th>Problèmes de sécurité rencontrés</th>
+                <th>Fréquence de surveillance des dispositifs IoT</th>
+                <th>Fonctionnalités souhaitées</th>
+                <th>Méthode d'alerte préférée</th>
+                <th>Suggestions et préoccupations</th>
+                <th>Souhait d'information sur le projet</th>
             </tr>
         </thead>
         <tbody>
-            <!-- To insert data here -->
+            <!-- Les données seront insérées ici -->
         </tbody>
     </table>
 
     <script>
-        const url = "https://docs.google.com/spreadsheets/d/e/1jHQSpy5Vle6Jdu-X2JwLfxH8AuhCfif1lK3v6OzD3FU/pub?output=csv";
+        const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1jHQSpy5Vle6Jdu-X2JwLfxH8AuhCfif1lK3v6OzD3FU/pub?output=csv";
 
+        // Fonction pour traiter le fichier CSV
         async function fetchCSV() {
             const response = await fetch(url);
             const csvText = await response.text();
@@ -59,27 +59,30 @@
             processCSV(data);
         }
 
+        // Fonction pour traiter les données CSV
         function processCSV(data) {
             const tableBody = document.querySelector("#resultatsTable tbody");
 
             data.forEach(row => {
                 const rowElement = document.createElement("tr");
+
+                // Création des données pour chaque colonne
                 rowElement.innerHTML = `
-<td>${row["Adresse mail"]}</td>
-                    <td>${row["Quel est votre rôle dans votre organisation ?"]}</td>
-                    <td>${row["Utilisez-vous actuellement des dispositifs IoT dans votre environnement ?"]}</td>
-                    <td>${row["Si oui, quels types de dispositifs IoT utilisez-vous ? (cochez toutes les réponses applicables)"]}</td>
-                    <td>${row["Avez-vous déjà rencontré des problèmes de sécurité avec vos dispositifs IoT ?"]}</td>
-                    <td>${row["À quelle fréquence surveillez vous l'état de vos dispositifs IoT ?"]}</td>
-                    <td>${row["Quelles fonctionnalités seriez vous le plus intéressé à avoir dans un système de surveillance IoT ? (cochez toutes les réponses applicables)"]}</td>
-                    <td>${row["Comment préférez-vous être averti en cas d'anomalie détectée ?"]}</td>
-                    <td>${row["Avez-vous des suggestions ou des préoccupations concernant la sécurité des dispositifs IoT ?"]}</td>
-                    <td>${row["Souhaitez-vous être informé des développements concernant ce projet ?"]}</td>
+                    <td>${row["Rôle dans l'organisation"]}</td>
+                    <td>${row["Utilisation de dispositifs IoT"]}</td>
+                    <td>${row["Types de dispositifs IoT utilisés"]}</td>
+                    <td>${row["Problèmes de sécurité rencontrés"]}</td>
+                    <td>${row["Fréquence de surveillance des dispositifs IoT"]}</td>
+                    <td>${row["Fonctionnalités souhaitées"]}</td>
+                    <td>${row["Méthode d'alerte préférée"]}</td>
+                    <td>${row["Suggestions et préoccupations"]}</td>
+                    <td>${row["Souhait d'information sur le projet"]}</td>
                 `;
                 tableBody.appendChild(rowElement);
             });
         }
 
+        // Appelle la fonction lorsque les données sont téléchargées
         fetchCSV();
     </script>
 </body>

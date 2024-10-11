@@ -56,7 +56,7 @@
                 <th>Souhait d'information sur le projet</th>
                 <th>Préférence d'avertissement</th>
                 <th>Suggestion concernant la sécurité</th>
-                <th>Etre informé du développement du projet</th>
+                <th>Être informé du développement du projet</th>
             </tr>
         </thead>
         <tbody>
@@ -78,11 +78,16 @@
                 // Remplir le tableau avec les données
                 for (let i = 1; i < data.length; i++) { // Commence à 1 pour ignorer l'en-tête
                     const row = document.createElement('tr');
-                    data[i].forEach(cell => {
-                        const td = document.createElement('td');
-                        td.textContent = cell || 'N/A'; // Si la cellule est vide, afficher 'N/A'
-                        row.appendChild(td);
-                    });
+                    // S'assurer que le nombre de colonnes correspond aux en-têtes
+                    if (data[i].length === 12) { // Assurez-vous que 12 est le bon nombre de colonnes
+                        data[i].forEach(cell => {
+                            const td = document.createElement('td');
+                            td.textContent = cell || 'N/A'; // Si la cellule est vide, afficher 'N/A'
+                            row.appendChild(td);
+                        });
+                    } else {
+                        console.error(`Erreur: ligne ${i + 1} ne contient pas le bon nombre de colonnes.`);
+                    }
                     tableBody.appendChild(row);
                 }
             },

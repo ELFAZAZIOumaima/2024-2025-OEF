@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affichage des réponses du Google Form</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Réponses du Google Form</h1>
+<table id="responsesTable">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Réponse</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Les réponses seront insérées ici -->
+    </tbody>
+</table>
+
+<script>
+    // Utiliser l'ID de ta Google Sheet
+    const sheetID = '1jHQSpy5Vle6Jdu-X2JwLfxH8AuhCfif1lK3v6OzD3FU';
+    const url = `https://spreadsheets.google.com/feeds/list/${sheetID}/1/public/values?alt=json`;
+
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        const tableBody = document.querySelector("#responsesTable tbody");
+        data.feed.entry.forEach(entry => {
+            const row = document.createElement("tr");
+            
+            // Remplace 'nom', 'email', 'réponse' par les intitulés exacts de tes colonnes dans la feuille Google Sheet
+            const name = document.createElement("td");
+            name.textContent = entry['gsx$nom']['$t']; // adapte ce champ si nécessaire
+            row.appendChild(name);
+
+            const email = document.createElement("td");
+            email.textContent = entry['gsx$email']['$t']; // adapte ce champ si nécessaire
+            row.appendChild(email);
+
+            const response = document.createElement("td");
+            response.textContent = entry['gsx$réponse']['$t']; // adapte ce champ si nécessaire
+            row.appendChild(response);
+
+            tableBody.appendChild(row);
+        });
+    })
+    .catch(error => console.error('Erreur lors de la récupération des données:', error));
+</script>
+
+</body>
+</html>

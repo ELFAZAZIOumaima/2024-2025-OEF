@@ -3,33 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>Résultats du Sondage sur l'IoT</title>
+=======
+    <title>Résultats du Sondage IoT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+>>>>>>> 8f3d3c7f5608ed1c0e2acf5db9c068a3c046a5da
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
+            margin-top: 20px;
         }
         th, td {
             padding: 12px;
+            border: 1px solid #ddd;
             text-align: left;
         }
         th {
-            background-color: #f4f4f4;
+            background-color: #007BFF;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .error {
+            color: red;
+            text-align: center;
         }
     </style>
-    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </head>
 <body>
+<<<<<<< HEAD
     <h1>Résultats du Sondage sur l'IoT</h1>
+=======
+>>>>>>> 8f3d3c7f5608ed1c0e2acf5db9c068a3c046a5da
 
-    <table id="resultatsTable">
+    <h1>Résultats du Sondage sur l'IoT</h1>
+    <table id="resultsTable">
         <thead>
             <tr>
                 <th>Rôle dans l'organisation</th>
@@ -41,6 +62,12 @@
                 <th>Méthode d'alerte préférée</th>
                 <th>Suggestions et préoccupations</th>
                 <th>Souhait d'information sur le projet</th>
+<<<<<<< HEAD
+=======
+                <th>Préférence d'avertissement</th>
+                <th>Suggestion concernant la sécurité</th>
+                <th>Être informé du développement du projet</th>
+>>>>>>> 8f3d3c7f5608ed1c0e2acf5db9c068a3c046a5da
             </tr>
         </thead>
         <tbody>
@@ -48,7 +75,10 @@
         </tbody>
     </table>
 
+    <div class="error" id="error-message"></div>
+
     <script>
+<<<<<<< HEAD
         const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1jHQSpy5Vle6Jdu-X2JwLfxH8AuhCfif1lK3v6OzD3FU/pub?output=csv";
 
         // Fonction pour traiter le fichier CSV
@@ -84,6 +114,37 @@
 
         // Appelle la fonction lorsque les données sont téléchargées
         fetchCSV();
+=======
+        const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/pub?output=csv';
+
+        Papa.parse(url, {
+            download: true,
+            complete: function(results) {
+                const data = results.data;
+                const tableBody = document.getElementById('resultsTable').querySelector('tbody');
+
+                // Remplir le tableau avec les données
+                for (let i = 1; i < data.length; i++) { // Commence à 1 pour ignorer l'en-tête
+                    const row = document.createElement('tr');
+                    // S'assurer que le nombre de colonnes correspond aux en-têtes
+                    if (data[i].length === 12) { // Assurez-vous que 12 est le bon nombre de colonnes
+                        data[i].forEach(cell => {
+                            const td = document.createElement('td');
+                            td.textContent = cell || 'N/A'; // Si la cellule est vide, afficher 'N/A'
+                            row.appendChild(td);
+                        });
+                    } else {
+                        console.error(`Erreur: ligne ${i + 1} ne contient pas le bon nombre de colonnes.`);
+                    }
+                    tableBody.appendChild(row);
+                }
+            },
+            error: function(error) {
+                const errorMessage = document.getElementById('error-message');
+                errorMessage.textContent = "Il y a eu un problème avec l'opération de récupération : " + error.message;
+            }
+        });
+>>>>>>> 8f3d3c7f5608ed1c0e2acf5db9c068a3c046a5da
     </script>
 </body>
 </html>

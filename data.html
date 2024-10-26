@@ -45,6 +45,8 @@
     <table id="resultsTable">
         <thead>
             <tr>
+                <th>Date et Heure</th>
+                <th>Adresse E-mail</th>
                 <th>Rôle dans l'organisation</th>
                 <th>Utilisation de dispositifs IoT</th>
                 <th>Types de dispositifs IoT utilisés</th>
@@ -55,8 +57,6 @@
                 <th>Suggestions et préoccupations</th>
                 <th>Souhait d'information sur le projet</th>
                 <th>Préférence d'avertissement</th>
-                <th>Suggestion concernant la sécurité</th>
-                <th>Être informé du développement du projet</th>
             </tr>
         </thead>
         <tbody>
@@ -67,7 +67,7 @@
     <div class="error" id="error-message"></div>
 
     <script>
-        const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/pub?output=csv';
+        const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/pubhtml?gid=1099791666&single=true';
 
         Papa.parse(url, {
             download: true,
@@ -78,16 +78,19 @@
                 // Remplir le tableau avec les données
                 for (let i = 1; i < data.length; i++) { // Commence à 1 pour ignorer l'en-tête
                     const row = document.createElement('tr');
-                    // S'assurer que le nombre de colonnes correspond aux en-têtes
-                    if (data[i].length === 12) { // Assurez-vous que 12 est le bon nombre de colonnes
-                        data[i].forEach(cell => {
+                    
+                    // Vérifie si la ligne a bien 12 colonnes (Date, E-mail + 10 questions)
+                    if (data[i].length >= 12) { 
+                        // On boucle pour chaque cellule de la ligne pour créer les <td>
+                        for (let j = 0; j < 12; j++) {
                             const td = document.createElement('td');
-                            td.textContent = cell || 'N/A'; // Si la cellule est vide, afficher 'N/A'
+                            td.textContent = data[i][j] || 'N/A'; // Si la cellule est vide, afficher 'N/A'
                             row.appendChild(td);
-                        });
+                        }
                     } else {
-                        console.error(`Erreur: ligne ${i + 1} ne contient pas le bon nombre de colonnes.`);
+                        console.error(`Erreur : ligne ${i + 1} ne contient pas le bon nombre de colonnes.`);
                     }
+                    
                     tableBody.appendChild(row);
                 }
             },

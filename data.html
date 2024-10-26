@@ -67,32 +67,41 @@
     <div class="error" id="error-message"></div>
 
     <script>
-        const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/pubhtml?gid=1099791666&single=true';
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/pub?output=csv';
 
-        Papa.parse(url, {
+        // Fonction pour traiter les données CSV
+        function processCSV(data) {
+            const tableBody = document.querySelector("#resultsTable tbody");
+
+            // Pour chaque ligne de données
+            data.forEach((row, index) => {
+                if (index === 0) return; // Ignore la première ligne (en-têtes)
+
+                const rowElement = document.createElement("tr");
+                rowElement.innerHTML = `
+                    <td>${row[0] || 'N/A'}</td>
+                    <td>${row[1] || 'N/A'}</td>
+                    <td>${row[2] || 'N/A'}</td>
+                    <td>${row[3] || 'N/A'}</td>
+                    <td>${row[4] || 'N/A'}</td>
+                    <td>${row[5] || 'N/A'}</td>
+                    <td>${row[6] || 'N/A'}</td>
+                    <td>${row[7] || 'N/A'}</td>
+                    <td>${row[8] || 'N/A'}</td>
+                    <td>${row[9] || 'N/A'}</td>
+                    <td>${row[10] || 'N/A'}</td>
+                    <td>${row[11] || 'N/A'}</td>
+                `;
+                tableBody.appendChild(rowElement);
+            });
+        }
+
+        // Utilisation de PapaParse pour récupérer et traiter les données CSV
+        Papa.parse(SHEET_URL, {
             download: true,
+            header: false, // Ignore l'en-tête pour personnaliser l'affichage
             complete: function(results) {
-                const data = results.data;
-                const tableBody = document.getElementById('resultsTable').querySelector('tbody');
-
-                // Remplir le tableau avec les données
-                for (let i = 1; i < data.length; i++) { // Commence à 1 pour ignorer l'en-tête
-                    const row = document.createElement('tr');
-                    
-                    // Vérifie si la ligne a bien 12 colonnes (Date, E-mail + 10 questions)
-                    if (data[i].length >= 12) { 
-                        // On boucle pour chaque cellule de la ligne pour créer les <td>
-                        for (let j = 0; j < 12; j++) {
-                            const td = document.createElement('td');
-                            td.textContent = data[i][j] || 'N/A'; // Si la cellule est vide, afficher 'N/A'
-                            row.appendChild(td);
-                        }
-                    } else {
-                        console.error(`Erreur : ligne ${i + 1} ne contient pas le bon nombre de colonnes.`);
-                    }
-                    
-                    tableBody.appendChild(row);
-                }
+                processCSV(results.data);
             },
             error: function(error) {
                 const errorMessage = document.getElementById('error-message');

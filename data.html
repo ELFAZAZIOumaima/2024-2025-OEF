@@ -65,20 +65,16 @@
     <div class="error" id="error-message"></div>
 
     <script>
-        // URL vers le fichier CSV Google Sheets
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/export?format=csv';
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/pubhtml?gid=1099791666&single=true';
 
-        // Fonction pour traiter les données CSV et les afficher dans le tableau
         function processCSV(data) {
             const tableBody = document.querySelector("#resultsTable tbody");
 
-            // Vérification si les données sont disponibles
             if (!data || data.length === 0) {
                 document.getElementById('error-message').textContent = "Aucune donnée disponible.";
                 return;
             }
 
-            // Pour chaque ligne de données
             data.forEach(row => {
                 const rowElement = document.createElement("tr");
                 rowElement.innerHTML = `
@@ -97,16 +93,15 @@
             });
         }
 
-        // Utilisation de PapaParse pour récupérer et traiter les données CSV
         Papa.parse(SHEET_URL, {
             download: true,
-            header: true, // Activer l'en-tête pour utiliser les noms de colonnes
+            header: true,
             complete: function(results) {
                 processCSV(results.data);
             },
             error: function(error) {
-                console.error("Erreur lors de la récupération des données : ", error);
-                document.getElementById('error-message').textContent = "Il y a eu un problème avec l'opération de récupération : " + (error.message || "URL non accessible. Vérifiez si l'URL est correcte et publique.");
+                console.error("Erreur lors de la récupération des données : ", error.message);
+                document.getElementById('error-message').textContent = "Il y a eu un problème avec l'opération de récupération : " + error.message;
             }
         });
     </script>

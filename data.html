@@ -65,9 +65,10 @@
     <div class="error" id="error-message"></div>
 
     <script>
+        // URL vers le fichier CSV Google Sheets
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/export?format=csv';
 
-        // Fonction pour traiter les données CSV
+        // Fonction pour traiter les données CSV et les afficher dans le tableau
         function processCSV(data) {
             const tableBody = document.querySelector("#resultsTable tbody");
 
@@ -104,8 +105,8 @@
                 processCSV(results.data);
             },
             error: function(error) {
-                console.error("Erreur lors de la récupération des données : ", error.message);
-                document.getElementById('error-message').textContent = "Il y a eu un problème avec l'opération de récupération : " + error.message;
+                console.error("Erreur lors de la récupération des données : ", error);
+                document.getElementById('error-message').textContent = "Il y a eu un problème avec l'opération de récupération : " + (error.message || "URL non accessible. Vérifiez si l'URL est correcte et publique.");
             }
         });
     </script>

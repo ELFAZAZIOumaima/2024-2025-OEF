@@ -1,0 +1,40 @@
+@prefix ad: <http://anomalydetector.org/vocab#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<http://anomalydetector.org/vocab#> a owl:Ontology ;
+    rdfs:label "Anomaly Detector Vocab" ;
+    rdfs:comment "Vocabulary for IoT anomaly detection system." .
+
+# Classes and properties definitions
+ad:IoTDevice a owl:Class ;
+    rdfs:label "IoT Device" ;
+    rdfs:comment "A device that is part of the IoT." .
+
+ad:type_IoT a owl:DatatypeProperty ;
+    rdfs:label "Type of IoT Device" ;
+    rdfs:comment "The type of IoT device." .
+
+ad:services a owl:DatatypeProperty ;
+    rdfs:label "Services" ;
+    rdfs:comment "Services used by the IoT device." .
+
+ad:security_level a owl:DatatypeProperty ;
+    rdfs:label "Security Level" ;
+    rdfs:comment "The required security level." .
+
+ad:type_network a owl:DatatypeProperty ;
+    rdfs:label "Type of Network" ;
+    rdfs:comment "The type of network being managed." .
+
+ad:tools a owl:DatatypeProperty ;
+    rdfs:label "Monitoring Tools" ;
+    rdfs:comment "The surveillance tools used." .
+
+ad:protocols a owl:DatatypeProperty ;
+    rdfs:label "Protocols" ;
+    rdfs:comment "Protocols in use." .
+
+ad:competences a owl:DatatypeProperty ;
+    rdfs:label "Technical Competences" ;
+    rdfs:comment "Technical competences required." .

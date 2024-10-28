@@ -53,11 +53,8 @@
                 <th>Problèmes de sécurité rencontrés</th>
                 <th>Fréquence de surveillance des dispositifs IoT</th>
                 <th>Fonctionnalités souhaitées</th>
-                <th>Méthode d'alerte préférée</th>
-                <th>Suggestions et préoccupations</th>
                 <th>Souhait d'information sur le projet</th>
                 <th>Préférence d'avertissement</th>
-
             </tr>
         </thead>
         <tbody>
@@ -68,7 +65,7 @@
     <div class="error" id="error-message"></div>
 
     <script>
-        const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/pub?output=csv';
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/export?format=csv';
 
         // Fonction pour traiter les données CSV
         function processCSV(data) {
@@ -90,15 +87,13 @@
                     <td>${row[7] || 'N/A'}</td>
                     <td>${row[8] || 'N/A'}</td>
                     <td>${row[9] || 'N/A'}</td>
-                    <td>${row[10] || 'N/A'}</td>
-                    <td>${row[11] || 'N/A'}</td>
                 `;
                 tableBody.appendChild(rowElement);
             });
         }
 
         // Utilisation de PapaParse pour récupérer et traiter les données CSV
-        Papa.parse(url, {
+        Papa.parse(SHEET_URL, {
             download: true,
             header: false, // Ignore l'en-tête pour personnaliser l'affichage
             complete: function(results) {

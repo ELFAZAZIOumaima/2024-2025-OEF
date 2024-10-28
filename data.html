@@ -65,43 +65,43 @@
     <div class="error" id="error-message"></div>
 
     <script>
-        const SHEET_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSee9IWLkJZ978ZDZPZB1yHBYUKH1I-KVh9m7ZBCPo9ABVOFnw/viewform?usp=sf_link';
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/export?format=csv';
 
+        // Fonction pour traiter les données CSV
         function processCSV(data) {
             const tableBody = document.querySelector("#resultsTable tbody");
 
-            if (!data || data.length === 0) {
-                document.getElementById('error-message').textContent = "Aucune donnée disponible.";
-                return;
-            }
+            // Pour chaque ligne de données
+            data.forEach((row, index) => {
+                if (index === 0) return; // Ignore la première ligne (en-têtes)
 
-            data.forEach(row => {
                 const rowElement = document.createElement("tr");
                 rowElement.innerHTML = `
-                    <td>${row['Date et Heure'] || 'N/A'}</td>
-                    <td>${row['Adresse E-mail'] || 'N/A'}</td>
-                    <td>${row['Rôle dans l\'organisation'] || 'N/A'}</td>
-                    <td>${row['Utilisation de dispositifs IoT'] || 'N/A'}</td>
-                    <td>${row['Types de dispositifs IoT utilisés'] || 'N/A'}</td>
-                    <td>${row['Problèmes de sécurité rencontrés'] || 'N/A'}</td>
-                    <td>${row['Fréquence de surveillance des dispositifs IoT'] || 'N/A'}</td>
-                    <td>${row['Fonctionnalités souhaitées'] || 'N/A'}</td>
-                    <td>${row['Souhait d\'information sur le projet'] || 'N/A'}</td>
-                    <td>${row['Préférence d\'avertissement'] || 'N/A'}</td>
+                    <td>${row[0] || 'N/A'}</td>
+                    <td>${row[1] || 'N/A'}</td>
+                    <td>${row[2] || 'N/A'}</td>
+                    <td>${row[3] || 'N/A'}</td>
+                    <td>${row[4] || 'N/A'}</td>
+                    <td>${row[5] || 'N/A'}</td>
+                    <td>${row[6] || 'N/A'}</td>
+                    <td>${row[7] || 'N/A'}</td>
+                    <td>${row[8] || 'N/A'}</td>
+                    <td>${row[9] || 'N/A'}</td>
                 `;
                 tableBody.appendChild(rowElement);
             });
         }
 
+        // Utilisation de PapaParse pour récupérer et traiter les données CSV
         Papa.parse(SHEET_URL, {
             download: true,
-            header: true,
+            header: false, // Ignore l'en-tête pour personnaliser l'affichage
             complete: function(results) {
                 processCSV(results.data);
             },
             error: function(error) {
-                console.error("Erreur lors de la récupération des données : ", error.message);
-                document.getElementById('error-message').textContent = "Il y a eu un problème avec l'opération de récupération : " + error.message;
+                const errorMessage = document.getElementById('error-message');
+                errorMessage.textContent = "Il y a eu un problème avec l'opération de récupération : " + error.message;
             }
         });
     </script>

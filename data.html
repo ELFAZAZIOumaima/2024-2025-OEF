@@ -55,34 +55,24 @@
                 <th>Fonctionnalités souhaitées</th>
                 <th>Souhait d'information sur le projet</th>
                 <th>Préférence d'avertissement</th>
+
             </tr>
         </thead>
         <tbody>
-            <!-- Les données seront insérées ici -->
-        </tbody>
-    </table>
 
-    <div class="error" id="error-message"></div>
+        <div class="error" id="error-message"></div>
 
     <script>
-        const SHEET_URL = 'https://cors-anywhere.herokuapp.com/https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/pub?gid=1099791666&single=true&output=csv';
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/export?format=csv';
 
+        // Fonction pour traiter les données CSV
         function processCSV(data) {
             const tableBody = document.querySelector("#resultsTable tbody");
 
-<<<<<<< HEAD
-            if (!data || data.length === 0) {
-                document.getElementById('error-message').textContent = "Aucune donnée disponible.";
-                return;
-            }
-
-            data.forEach(row => {
-=======
             // Pour chaque ligne de données
             data.forEach((row, index) => {
                 if (index === 0) return; // Ignore la première ligne (en-têtes)
 
->>>>>>> parent of aa30d2b (Update data.html)
                 const rowElement = document.createElement("tr");
                 rowElement.innerHTML = `
                     <td>${row[0] || 'N/A'}</td>
@@ -95,29 +85,22 @@
                     <td>${row[7] || 'N/A'}</td>
                     <td>${row[8] || 'N/A'}</td>
                     <td>${row[9] || 'N/A'}</td>
+
                 `;
                 tableBody.appendChild(rowElement);
             });
         }
 
+        // Utilisation de PapaParse pour récupérer et traiter les données CSV
         Papa.parse(SHEET_URL, {
             download: true,
-<<<<<<< HEAD
-            header: true,
-=======
             header: false, // Ignore l'en-tête pour personnaliser l'affichage
->>>>>>> parent of aa30d2b (Update data.html)
             complete: function(results) {
                 processCSV(results.data);
             },
             error: function(error) {
-<<<<<<< HEAD
-                console.error("Erreur lors de la récupération des données : ", error);
-                document.getElementById('error-message').textContent = "Il y a eu un problème avec l'opération de récupération : " + error.message;
-=======
                 const errorMessage = document.getElementById('error-message');
                 errorMessage.textContent = "Il y a eu un problème avec l'opération de récupération : " + error.message;
->>>>>>> parent of aa30d2b (Update data.html)
             }
         });
     </script>

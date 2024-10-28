@@ -3,12 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-    <title>Résultats du Sondage sur l'IoT</title>
-=======
     <title>Résultats du Sondage IoT</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
->>>>>>> 8f3d3c7f5608ed1c0e2acf5db9c068a3c046a5da
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,10 +40,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </head>
 <body>
-<<<<<<< HEAD
-    <h1>Résultats du Sondage sur l'IoT</h1>
-=======
->>>>>>> 8f3d3c7f5608ed1c0e2acf5db9c068a3c046a5da
 
     <h1>Résultats du Sondage sur l'IoT</h1>
     <table id="resultsTable">
@@ -64,15 +56,7 @@
                 <th>Méthode d'alerte préférée</th>
                 <th>Suggestions et préoccupations</th>
                 <th>Souhait d'information sur le projet</th>
-<<<<<<< HEAD
-=======
                 <th>Préférence d'avertissement</th>
-<<<<<<< HEAD
-                <th>Suggestion concernant la sécurité</th>
-                <th>Être informé du développement du projet</th>
->>>>>>> 8f3d3c7f5608ed1c0e2acf5db9c068a3c046a5da
-=======
->>>>>>> 4a8d4327a76da158fad7515b1f9aba24b4d69fcb
             </tr>
         </thead>
         <tbody>
@@ -83,48 +67,7 @@
     <div class="error" id="error-message"></div>
 
     <script>
-<<<<<<< HEAD
-<<<<<<< HEAD
-        const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1jHQSpy5Vle6Jdu-X2JwLfxH8AuhCfif1lK3v6OzD3FU/pub?output=csv";
-
-        // Fonction pour traiter le fichier CSV
-        async function fetchCSV() {
-            const response = await fetch(url);
-            const csvText = await response.text();
-            const data = d3.csvParse(csvText);
-            processCSV(data);
-        }
-
-        // Fonction pour traiter les données CSV
-        function processCSV(data) {
-            const tableBody = document.querySelector("#resultatsTable tbody");
-
-            data.forEach(row => {
-                const rowElement = document.createElement("tr");
-
-                // Création des données pour chaque colonne
-                rowElement.innerHTML = `
-                    <td>${row["Rôle dans l'organisation"]}</td>
-                    <td>${row["Utilisation de dispositifs IoT"]}</td>
-                    <td>${row["Types de dispositifs IoT utilisés"]}</td>
-                    <td>${row["Problèmes de sécurité rencontrés"]}</td>
-                    <td>${row["Fréquence de surveillance des dispositifs IoT"]}</td>
-                    <td>${row["Fonctionnalités souhaitées"]}</td>
-                    <td>${row["Méthode d'alerte préférée"]}</td>
-                    <td>${row["Suggestions et préoccupations"]}</td>
-                    <td>${row["Souhait d'information sur le projet"]}</td>
-                `;
-                tableBody.appendChild(rowElement);
-            });
-        }
-
-        // Appelle la fonction lorsque les données sont téléchargées
-        fetchCSV();
-=======
-        const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/pub?output=csv';
-=======
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/pubhtml';
->>>>>>> 4a8d4327a76da158fad7515b1f9aba24b4d69fcb
 
         // Fonction pour traiter les données CSV
         function processCSV(data) {
@@ -165,7 +108,6 @@
                 errorMessage.textContent = "Il y a eu un problème avec l'opération de récupération : " + error.message;
             }
         });
->>>>>>> 8f3d3c7f5608ed1c0e2acf5db9c068a3c046a5da
     </script>
 </body>
 </html>

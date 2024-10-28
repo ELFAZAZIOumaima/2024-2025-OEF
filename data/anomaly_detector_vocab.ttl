@@ -1,0 +1,58 @@
+
+@prefix ad: <http://anomalydetector.org/vocab#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vs: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+
+<http://anomalydetector.org/vocab> a owl:Ontology ;
+    dcterms:title "Anomaly Detector Vocab" ;
+    rdfs:label "Anomaly Detector Vocab" ;
+    rdfs:comment "Vocabulary for IoT anomaly detection system." .
+
+# Classes
+ad:Device a rdfs:Class ;
+    rdfs:label "Device" ;
+    rdfs:comment "A connected IoT device in the network." ;
+    vs:term_status "experimental" .
+
+ad:Network a rdfs:Class ;
+    rdfs:label "Network" ;
+    rdfs:comment "Network that connects IoT devices." ;
+    vs:term_status "experimental" .
+
+# Properties
+ad:type_IoT a rdf:Property ;
+    rdfs:label "Type of IoT Device" ;
+    rdfs:comment "The type of IoT device." ;
+    vs:term_status "experimental" .
+
+ad:services a rdf:Property ;
+    rdfs:label "Services" ;
+    rdfs:comment "Services used by the IoT device." ;
+    vs:term_status "experimental" .
+
+ad:security_level a rdf:Property ;
+    rdfs:label "Security Level" ;
+    rdfs:comment "The required security level." ;
+    vs:term_status "experimental" .
+
+ad:type_network a rdf:Property ;
+    rdfs:label "Type of Network" ;
+    rdfs:comment "The type of network being managed." ;
+    vs:term_status "experimental" .
+
+ad:tools a rdf:Property ;
+    rdfs:label "Monitoring Tools" ;
+    rdfs:comment "The surveillance tools used." ;
+    vs:term_status "experimental" .
+
+ad:protocols a rdf:Property ;
+    rdfs:label "Protocols" ;
+    rdfs:comment "Protocols in use." ;
+    vs:term_status "experimental" .
+
+ad:competences a rdf:Property ;
+    rdfs:label "Technical Competences" ;
+    rdfs:comment "Technical competences required." ;
+    vs:term_status "experimental" .

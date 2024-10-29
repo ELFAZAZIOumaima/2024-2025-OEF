@@ -35,6 +35,7 @@
         .error {
             color: red;
             text-align: center;
+            margin-top: 20px;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
@@ -53,8 +54,6 @@
                 <th>Problèmes de sécurité rencontrés</th>
                 <th>Fréquence de surveillance des dispositifs IoT</th>
                 <th>Fonctionnalités souhaitées</th>
-                <th>Méthode d'alerte préférée</th>
-                <th>Suggestions et préoccupations</th>
                 <th>Souhait d'information sur le projet</th>
                 <th>Préférence d'avertissement</th>
             </tr>
@@ -63,19 +62,23 @@
             <!-- Les données seront insérées ici -->
         </tbody>
     </table>
-
+    
     <div class="error" id="error-message"></div>
 
     <script>
+<<<<<<< HEAD
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/pub?output=csv';
 
         // Fonction pour traiter les données CSV
+=======
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/export?format=csv';
+
+>>>>>>> c894f28de8b7b8c521d5085e9192112408722c73
         function processCSV(data) {
             const tableBody = document.querySelector("#resultsTable tbody");
 
-            // Pour chaque ligne de données
             data.forEach((row, index) => {
-                if (index === 0) return; // Ignore la première ligne (en-têtes)
+                if (index === 0) return; // Ignorer l'en-tête
 
                 const rowElement = document.createElement("tr");
 
@@ -91,16 +94,14 @@
                     <td>${row[7] || 'N/A'}</td>
                     <td>${row[8] || 'N/A'}</td>
                     <td>${row[9] || 'N/A'}</td>
-                    <td>${row[10] || 'N/A'}</td>
-                    <td>${row[11] || 'N/A'}</td>
                 `;
                 tableBody.appendChild(rowElement);
             });
         }
 
-        // Utilisation de PapaParse pour récupérer et traiter les données CSV
         Papa.parse(SHEET_URL, {
             download: true,
+<<<<<<< HEAD
             header: false,
             skipEmptyLines: true,
             complete: function(results) {
@@ -108,6 +109,15 @@
                     processCSV(results.data);
                 } else {
                     document.getElementById('error-message').textContent = "Aucune donnée disponible dans le fichier CSV.";
+=======
+            header: false, 
+            complete: function(results) {
+                if (results.data.length === 0) {
+                    const errorMessage = document.getElementById('error-message');
+                    errorMessage.textContent = "Aucune donnée disponible.";
+                } else {
+                    processCSV(results.data);
+>>>>>>> c894f28de8b7b8c521d5085e9192112408722c73
                 }
             },
             error: function(error) {

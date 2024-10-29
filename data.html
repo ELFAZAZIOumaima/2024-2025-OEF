@@ -67,7 +67,7 @@
     <div class="error" id="error-message"></div>
 
     <script>
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/pubhtml';
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/pub?output=csv';
 
         // Fonction pour traiter les données CSV
         function processCSV(data) {
@@ -78,6 +78,8 @@
                 if (index === 0) return; // Ignore la première ligne (en-têtes)
 
                 const rowElement = document.createElement("tr");
+
+                // Remplir chaque cellule de la ligne
                 rowElement.innerHTML = `
                     <td>${row[0] || 'N/A'}</td>
                     <td>${row[1] || 'N/A'}</td>
@@ -99,13 +101,17 @@
         // Utilisation de PapaParse pour récupérer et traiter les données CSV
         Papa.parse(SHEET_URL, {
             download: true,
-            header: false, // Ignore l'en-tête pour personnaliser l'affichage
+            header: false,
+            skipEmptyLines: true,
             complete: function(results) {
-                processCSV(results.data);
+                if (results.data && results.data.length > 1) {
+                    processCSV(results.data);
+                } else {
+                    document.getElementById('error-message').textContent = "Aucune donnée disponible dans le fichier CSV.";
+                }
             },
             error: function(error) {
-                const errorMessage = document.getElementById('error-message');
-                errorMessage.textContent = "Il y a eu un problème avec l'opération de récupération : " + error.message;
+                document.getElementById('error-message').textContent = "Erreur lors du chargement des données : " + error.message;
             }
         });
     </script>

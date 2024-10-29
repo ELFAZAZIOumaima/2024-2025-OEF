@@ -66,14 +66,12 @@
     <div class="error" id="error-message"></div>
 
     <script>
-<<<<<<< HEAD
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/pub?output=csv';
+
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/1jHQSpy5Vle6Jdu-X2JwLfxH8AuhCfif1lK3v6OzD3FU/pub?output=csv;
+
 
         // Fonction pour traiter les données CSV
-=======
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/export?format=csv';
 
->>>>>>> c894f28de8b7b8c521d5085e9192112408722c73
         function processCSV(data) {
             const tableBody = document.querySelector("#resultsTable tbody");
 
@@ -101,7 +99,7 @@
 
         Papa.parse(SHEET_URL, {
             download: true,
-<<<<<<< HEAD
+
             header: false,
             skipEmptyLines: true,
             complete: function(results) {
@@ -109,15 +107,7 @@
                     processCSV(results.data);
                 } else {
                     document.getElementById('error-message').textContent = "Aucune donnée disponible dans le fichier CSV.";
-=======
-            header: false, 
-            complete: function(results) {
-                if (results.data.length === 0) {
-                    const errorMessage = document.getElementById('error-message');
-                    errorMessage.textContent = "Aucune donnée disponible.";
-                } else {
-                    processCSV(results.data);
->>>>>>> c894f28de8b7b8c521d5085e9192112408722c73
+
                 }
             },
             error: function(error) {

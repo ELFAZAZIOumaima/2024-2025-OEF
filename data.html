@@ -66,12 +66,9 @@
     <div class="error" id="error-message"></div>
 
     <script>
-
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/1jHQSpy5Vle6Jdu-X2JwLfxH8AuhCfif1lK3v6OzD3FU/pub?output=csv;
-
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/1jHQSpy5Vle6Jdu-X2JwLfxH8AuhCfif1lK3v6OzD3FU/pub?output=csv';
 
         // Fonction pour traiter les données CSV
-
         function processCSV(data) {
             const tableBody = document.querySelector("#resultsTable tbody");
 
@@ -97,23 +94,37 @@
             });
         }
 
-        Papa.parse(SHEET_URL, {
-            download: true,
-
-            header: false,
-            skipEmptyLines: true,
-            complete: function(results) {
-                if (results.data && results.data.length > 1) {
-                    processCSV(results.data);
-                } else {
-                    document.getElementById('error-message').textContent = "Aucune donnée disponible dans le fichier CSV.";
-
+        // Utiliser fetch pour charger le CSV
+        fetch(SHEET_URL)
+            .then(response => {
+                if (!response.ok) {
+                    // Afficher un message d'erreur si le statut HTTP n'est pas OK
+                    throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
                 }
-            },
-            error: function(error) {
+                return response.text(); // Retourne les données sous forme de texte
+            })
+            .then(csvData => {
+                // Parse le CSV avec PapaParse
+                Papa.parse(csvData, {
+                    header: false,
+                    skipEmptyLines: true,
+                    complete: function(results) {
+                        if (results.data && results.data.length > 1) {
+                            processCSV(results.data); // Appelle la fonction pour afficher les données
+                        } else {
+                            document.getElementById('error-message').textContent = "Aucune donnée disponible dans le fichier CSV.";
+                        }
+                    },
+                    error: function(error) {
+                        document.getElementById('error-message').textContent = "Erreur lors du traitement des données : " + error.message;
+                    }
+                });
+            })
+            .catch(error => {
+                // Gérer les erreurs de réseau ou les erreurs 404
+                console.error("Erreur lors du chargement des données :", error);
                 document.getElementById('error-message').textContent = "Erreur lors du chargement des données : " + error.message;
-            }
-        });
+            });
     </script>
 </body>
 </html>

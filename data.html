@@ -66,8 +66,6 @@
                     <th>Problèmes de sécurité rencontrés</th>
                     <th>Fréquence de surveillance des dispositifs IoT</th>
                     <th>Fonctionnalités souhaitées</th>
-                    <th>Méthode d'alerte préférée</th>
-                    <th>Suggestions et préoccupations</th>
                     <th>Souhait d'information sur le projet</th>
                     <th>Préférence d'avertissement</th>
                 </tr>
@@ -118,10 +116,8 @@
                     <td>${row["Avez-vous déjà rencontré des problèmes de sécurité avec vos dispositifs IoT ?"] || ''}</td>
                     <td>${row["À quelle fréquence surveillez vous l'état de vos dispositifs IoT ?"] || ''}</td>
                     <td>${row["Quelles fonctionnalités seriez vous le plus intéressé à avoir dans un système de surveillance IoT ? (cochez toutes les réponses applicables)"] || ''}</td>
-                    <td>${row["Comment préférez-vous être averti en cas d'anomalie détectée ?"] || ''}</td>
-                    <td>${row["Avez-vous des suggestions ou des préoccupations concernant la sécurité des dispositifs IoT ?"] || ''}</td>
                     <td>${row["Souhaitez-vous être informé des développements concernant ce projet ?"] || ''}</td>
-                    <td>${row["Préférence d'avertissement"] || ''}</td>
+                    <td>${row["Comment préférez-vous être averti en cas d'anomalie détectée ?"] || ''}</td>
                 `;
                 rowElement.addEventListener("click", () => showDetails(row));
                 tableBody.appendChild(rowElement);
@@ -139,10 +135,8 @@
                 <p><strong>Problèmes de sécurité rencontrés:</strong> ${row["Avez-vous déjà rencontré des problèmes de sécurité avec vos dispositifs IoT ?"] || ''}</p>
                 <p><strong>Fréquence de surveillance des dispositifs IoT:</strong> ${row["À quelle fréquence surveillez vous l'état de vos dispositifs IoT ?"] || ''}</p>
                 <p><strong>Fonctionnalités souhaitées:</strong> ${row["Quelles fonctionnalités seriez vous le plus intéressé à avoir dans un système de surveillance IoT ? (cochez toutes les réponses applicables)"] || ''}</p>
-                <p><strong>Méthode d'alerte préférée:</strong> ${row["Comment préférez-vous être averti en cas d'anomalie détectée ?"] || ''}</p>
-                <p><strong>Suggestions et préoccupations:</strong> ${row["Avez-vous des suggestions ou des préoccupations concernant la sécurité des dispositifs IoT ?"] || ''}</p>
                 <p><strong>Souhait d'information sur le projet:</strong> ${row["Souhaitez-vous être informé des développements concernant ce projet ?"] || ''}</p>
-                <p><strong>Préférence d'avertissement:</strong> ${row["Préférence d'avertissement"] || ''}</p>
+                <p><strong>Préférence d'avertissement:</strong> ${row["Comment préférez-vous être averti en cas d'anomalie détectée ?"] || ''}</p>
             `;
             document.getElementById("modalContent").innerHTML = content;
             $('#detailModal').modal('show');

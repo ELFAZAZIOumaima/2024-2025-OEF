@@ -60,7 +60,7 @@
                 <tr>
                     <th>Date et Heure</th>
                     <th>Adresse E-mail</th>
-                    <th>Rôle dans l'organisation</th>
+                    <th>Quel est votre rôle dans votre organisation ?</th>
                     <th>Utilisation de dispositifs IoT</th>
                     <th>Types de dispositifs IoT utilisés</th>
                     <th>Problèmes de sécurité rencontrés</th>
@@ -99,44 +99,47 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e//1jHQSpy5Vle6Jdu-X2JwLfxH8AuhCfif1lK3v6OzD3FU/pub?output=csv';
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/pub?output=csv';
 
         // Fonction pour traiter les données CSV
         function processCSV(data) {
-            const tableBody = document.querySelector("#resultsTable tbody");
+    const tableBody = document.querySelector("#resultsTable tbody");
 
-            data.forEach(row => {
-                const rowElement = document.createElement("tr");
-                rowElement.innerHTML = `
-                    <td>${row["Date"] || ''}</td>
-                    <td>${row["Adresse mail"] || ''}</td>
-                    <td>${row["Quel est votre rôle dans votre organisation ? "] || ''}</td>
-                    <td>${row["Utilisez-vous actuellement des dispositifs IoT dans votre environnement ?  "] || ''}</td>
-                    <td>${row["Si oui, quels types de dispositifs IoT utilisez-vous ? (cochez toutes les réponses applicables)  "] || ''}</td>
-                    <td>${row["Avez-vous déjà rencontré des problèmes de sécurité avec vos dispositifs IoT ?"] || ''}</td>
-                    <td>${row["À quelle fréquence surveillez vous l'état de vos dispositifs IoT ?"] || ''}</td>
-                    <td>${row["Quelles fonctionnalités seriez vous le plus intéressé à avoir dans un système de surveillance IoT ? (cochez toutes les réponses applicables)"] || ''}</td>
-                    <td>${row["Souhaitez-vous être informé des développements concernant ce projet ?"] || ''}</td>
-                    <td>${row["Comment préférez-vous être averti en cas d'anomalie détectée ?"] || ''}</td>
-                `;
-                rowElement.addEventListener("click", () => showDetails(row));
-                tableBody.appendChild(rowElement);
-            });
-        }
+    data.forEach(row => {
+        const rowElement = document.createElement("tr");
+        rowElement.innerHTML = `
+            <td>${row["Date"] || 'N/A'}</td>
+            <td>${row["Adresse mail"] || 'N/A'}</td>
+            <td>${row["Quel est votre rôle dans votre organisation ? "] || 'N/A'}</td>
+            <td>${row["Utilisez-vous actuellement des dispositifs IoT dans votre environnement ?  "] || 'N/A'}</td>
+            <td>${row["Si oui, quels types de dispositifs IoT utilisez-vous ? (cochez toutes les réponses applicables)  "] || 'N/A'}</td>
+            <td>${row["Avez-vous déjà rencontré des problèmes de sécurité avec vos dispositifs IoT ?"] || 'N/A'}</td>
+            <td>${row["À quelle fréquence surveillez vous l'état de vos dispositifs IoT ?"] || 'N/A'}</td>
+            <td>${row["Quelles fonctionnalités seriez vous le plus intéressé à avoir dans un système de surveillance IoT ? (cochez toutes les réponses applicables)"] || 'N/A'}</td>
+            <td>${row["Souhaitez-vous être informé des développements concernant ce projet ?"] || 'N/A'}</td>
+            <td>${row["Comment préférez-vous être averti en cas d'anomalie détectée ?"] || 'N/A'}</td>
+        `;
+        rowElement.addEventListener("click", () => showDetails(row));
+        tableBody.appendChild(rowElement);
+    });
+}
+
+
+
 
         // Fonction pour afficher les détails d'une réponse dans le modal
         function showDetails(row) {
             const content = `
-                <p><strong>Date et Heure:</strong> ${row["Date"] || ''}</p>
-                <p><strong>Adresse E-mail:</strong> ${row["Adresse mail"] || ''}</p>
-                <p><strong>Rôle dans l'organisation:</strong> ${row["Quel est votre rôle dans votre organisation ? "] || ''}</p>
-                <p><strong>Utilisation de dispositifs IoT:</strong> ${row["Utilisez-vous actuellement des dispositifs IoT dans votre environnement ?  "] || ''}</p>
-                <p><strong>Types de dispositifs IoT utilisés:</strong> ${row["Si oui, quels types de dispositifs IoT utilisez-vous ? (cochez toutes les réponses applicables)  "] || ''}</p>
-                <p><strong>Problèmes de sécurité rencontrés:</strong> ${row["Avez-vous déjà rencontré des problèmes de sécurité avec vos dispositifs IoT ?"] || ''}</p>
-                <p><strong>Fréquence de surveillance des dispositifs IoT:</strong> ${row["À quelle fréquence surveillez vous l'état de vos dispositifs IoT ?"] || ''}</p>
-                <p><strong>Fonctionnalités souhaitées:</strong> ${row["Quelles fonctionnalités seriez vous le plus intéressé à avoir dans un système de surveillance IoT ? (cochez toutes les réponses applicables)"] || ''}</p>
-                <p><strong>Souhait d'information sur le projet:</strong> ${row["Souhaitez-vous être informé des développements concernant ce projet ?"] || ''}</p>
-                <p><strong>Préférence d'avertissement:</strong> ${row["Comment préférez-vous être averti en cas d'anomalie détectée ?"] || ''}</p>
+                <p><strong>Date et Heure:</strong> ${row["Date et Heure"] || 'N/A'}</p>
+                <p><strong>Adresse E-mail:</strong> ${row["Adresse E-mail"] || 'N/A'}</p>
+                <p><strong>Rôle dans l'organisation:</strong> ${row["Rôle dans l'organisation"] || 'N/A'}</p>
+                <p><strong>Utilisation de dispositifs IoT:</strong> ${row["Utilisation de dispositifs IoT"] || 'N/A'}</p>
+                <p><strong>Types de dispositifs IoT utilisés:</strong> ${row["Types de dispositifs IoT utilisés"] || 'N/A'}</p>
+                <p><strong>Problèmes de sécurité rencontrés:</strong> ${row["Problèmes de sécurité rencontrés"] || 'N/A'}</p>
+                <p><strong>Fréquence de surveillance des dispositifs IoT:</strong> ${row["Fréquence de surveillance des dispositifs IoT"] || 'N/A'}</p>
+                <p><strong>Fonctionnalités souhaitées:</strong> ${row["Fonctionnalités souhaitées"] || 'N/A'}</p>
+                <p><strong>Souhait d'information sur le projet:</strong> ${row["Souhait d'information sur le projet"] || 'N/A'}</p>
+                <p><strong>Préférence d'avertissement:</strong> ${row["Préférence d'avertissement"] || 'N/A'}</p>
             `;
             document.getElementById("modalContent").innerHTML = content;
             $('#detailModal').modal('show');

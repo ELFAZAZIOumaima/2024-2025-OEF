@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Résultats du Sondage IoT</title>
+    <title>IoTProject - Résultats du Sondage</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
@@ -44,7 +44,6 @@
             text-align: center;
             margin-top: 20px;
         }
-        /* Style pour le modal */
         .modal-content {
             padding: 20px;
             border-radius: 5px;
@@ -53,19 +52,21 @@
 </head>
 <body>
 
-    <h1>Résultats du Sondage sur l'IoT</h1>
+    <h1>IoTProject - Résultats du Sondage</h1>
     <div class="container">
-        <table id="resultsTable" class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped" id="resultsTable">
             <thead>
                 <tr>
                     <th>Date et Heure</th>
                     <th>Adresse E-mail</th>
-                    <th>Quel est votre rôle dans votre organisation ?</th>
+                    <th>Rôle dans l'organisation</th>
                     <th>Utilisation de dispositifs IoT</th>
                     <th>Types de dispositifs IoT utilisés</th>
                     <th>Problèmes de sécurité rencontrés</th>
                     <th>Fréquence de surveillance des dispositifs IoT</th>
                     <th>Fonctionnalités souhaitées</th>
+                    <th>Méthode d'alerte préférée</th>
+                    <th>Suggestions et préoccupations</th>
                     <th>Souhait d'information sur le projet</th>
                     <th>Préférence d'avertissement</th>
                 </tr>
@@ -94,70 +95,74 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTx1kcDsUkEmfdGNb8j65f9u-4-4QJL1EeDlzGHe8Ej66MMOW0viya6MTblbQKhn5LxIQK1uqtSHdGK/pub?output=csv';
+        const SHEET_ID = '1jHQSpy5Vle6Jdu-X2JwLfxH8AuhCfif1lK3v6OzD3FU';
+        const API_KEY = 'AIzaSyDX64LO-Cj8Vn96emeor_4eKOlRim6ZcpM';
+        const RANGE = 'IoTProject'; // Nom exact de la feuille
 
-        // Fonction pour traiter les données CSV
-        function processCSV(data) {
+        async function fetchData() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.values) {
+                    displayData(data.values);
+                } else {
+                    document.getElementById('error-message').textContent = "Aucune donnée disponible dans la feuille de calcul.";
+                }
+            } catch (error) {
+                document.getElementById('error-message').textContent = "Erreur lors de la récupération des données.";
+            }
+        }
+
+        function displayData(data) {
             const tableBody = document.querySelector("#resultsTable tbody");
+            tableBody.innerHTML = '';
 
-            data.forEach(row => {
+            data.slice(1).forEach(row => {
                 const rowElement = document.createElement("tr");
                 rowElement.innerHTML = `
-                    <td>${row["Date et Heure"] || 'N/A'}</td>
-                    <td>${row["Adresse E-mail"] || 'N/A'}</td>
-                    <td>${row["Rôle dans l'organisation"] || 'N/A'}</td>
-                    <td>${row["Utilisation de dispositifs IoT"] || 'N/A'}</td>
-                    <td>${row["Types de dispositifs IoT utilisés"] || 'N/A'}</td>
-                    <td>${row["Problèmes de sécurité rencontrés"] || 'N/A'}</td>
-                    <td>${row["Fréquence de surveillance des dispositifs IoT"] || 'N/A'}</td>
-                    <td>${row["Fonctionnalités souhaitées"] || 'N/A'}</td>
-                    <td>${row["Souhait d'information sur le projet"] || 'N/A'}</td>
-                    <td>${row["Préférence d'avertissement"] || 'N/A'}</td>
+                    <td>${row[0] || ''}</td>
+                    <td>${row[1] || ''}</td>
+                    <td>${row[2] || ''}</td>
+                    <td>${row[3] || ''}</td>
+                    <td>${row[4] || ''}</td>
+                    <td>${row[5] || ''}</td>
+                    <td>${row[6] || ''}</td>
+                    <td>${row[7] || ''}</td>
+                    <td>${row[8] || ''}</td>
+                    <td>${row[9] || ''}</td>
+                    <td>${row[10] || ''}</td>
+                    <td>${row[11] || ''}</td>
                 `;
                 rowElement.addEventListener("click", () => showDetails(row));
                 tableBody.appendChild(rowElement);
             });
         }
 
-        // Fonction pour afficher les détails d'une réponse dans le modal
         function showDetails(row) {
             const content = `
-                <p><strong>Date et Heure:</strong> ${row["Date et Heure"] || 'N/A'}</p>
-                <p><strong>Adresse E-mail:</strong> ${row["Adresse E-mail"] || 'N/A'}</p>
-                <p><strong>Rôle dans l'organisation:</strong> ${row["Rôle dans l'organisation"] || 'N/A'}</p>
-                <p><strong>Utilisation de dispositifs IoT:</strong> ${row["Utilisation de dispositifs IoT"] || 'N/A'}</p>
-                <p><strong>Types de dispositifs IoT utilisés:</strong> ${row["Types de dispositifs IoT utilisés"] || 'N/A'}</p>
-                <p><strong>Problèmes de sécurité rencontrés:</strong> ${row["Problèmes de sécurité rencontrés"] || 'N/A'}</p>
-                <p><strong>Fréquence de surveillance des dispositifs IoT:</strong> ${row["Fréquence de surveillance des dispositifs IoT"] || 'N/A'}</p>
-                <p><strong>Fonctionnalités souhaitées:</strong> ${row["Fonctionnalités souhaitées"] || 'N/A'}</p>
-                <p><strong>Souhait d'information sur le projet:</strong> ${row["Souhait d'information sur le projet"] || 'N/A'}</p>
-                <p><strong>Préférence d'avertissement:</strong> ${row["Préférence d'avertissement"] || 'N/A'}</p>
+                <p><strong>Date et Heure:</strong> ${row[0] || ''}</p>
+                <p><strong>Adresse E-mail:</strong> ${row[1] || ''}</p>
+                <p><strong>Rôle dans l'organisation:</strong> ${row[2] || ''}</p>
+                <p><strong>Utilisation de dispositifs IoT:</strong> ${row[3] || ''}</p>
+                <p><strong>Types de dispositifs IoT utilisés:</strong> ${row[4] || ''}</p>
+                <p><strong>Problèmes de sécurité rencontrés:</strong> ${row[5] || ''}</p>
+                <p><strong>Fréquence de surveillance des dispositifs IoT:</strong> ${row[6] || ''}</p>
+                <p><strong>Fonctionnalités souhaitées:</strong> ${row[7] || ''}</p>
+                <p><strong>Méthode d'alerte préférée:</strong> ${row[8] || ''}</p>
+                <p><strong>Suggestions et préoccupations:</strong> ${row[9] || ''}</p>
+                <p><strong>Souhait d'information sur le projet:</strong> ${row[10] || ''}</p>
+                <p><strong>Préférence d'avertissement:</strong> ${row[11] || ''}</p>
             `;
             document.getElementById("modalContent").innerHTML = content;
             $('#detailModal').modal('show');
         }
 
-        // Utilisation de PapaParse pour télécharger et traiter le CSV directement
-        Papa.parse(SHEET_URL, {
-            download: true,
-            header: true,
-            skipEmptyLines: true,
-            complete: function(results) {
-                if (results.data && results.data.length > 0) {
-                    processCSV(results.data);
-                } else {
-                    document.getElementById('error-message').textContent = "Aucune donnée disponible dans le fichier CSV.";
-                }
-            },
-            error: function(error) {
-                document.getElementById('error-message').textContent = "Erreur lors du traitement des données : " + error.message;
-            }
-        });
+        fetchData();
     </script>
 </body>
 </html>

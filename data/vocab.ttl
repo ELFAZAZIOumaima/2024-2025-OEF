@@ -1,0 +1,145 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ex: <http://iot.org/vocab#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:Admin_Reseau a rdfs:Class ;
+    rdfs:label "Administrateur Réseau" ;
+    rdfs:comment "Représente un administrateur de réseau IoT, responsable de la gestion et de la sécurité des appareils connectés." .
+
+ex:Developpeur a rdfs:Class ;
+    rdfs:label "Développeur" ;
+    rdfs:comment "Représente un développeur travaillant sur le système IoT." .
+
+ex:User_IoT a rdfs:Class ;
+    rdfs:label "Utilisateur IoT" ;
+    rdfs:comment "Représente un utilisateur d'objets connectés dans un environnement IoT." .
+
+ex:Device a rdfs:Class ;
+    rdfs:label "Appareil Connecté" ;
+    rdfs:comment "Représente un objet connecté ou un dispositif dans un réseau IoT." .
+
+ex:Network a rdfs:Class ;
+    rdfs:label "Réseau utilisé" ;
+    rdfs:comment "Représente le système ou l'infrastructure de réseau IoT global." .
+
+ex:JobRole a rdfs:Class ;
+    rdfs:label "Rôle/Métier" ;
+    rdfs:comment "Représente les fonctions ou métiers assignés aux acteurs du réseau IoT." .
+
+ex:AnomalieDetectee a rdfs:Class ;
+    rdfs:label "Anomalie Détectée" ;
+    rdfs:comment "Représente une anomalie ou un incident détecté dans le réseau IoT." .
+
+ex:dateDetection a rdf:Property ;
+    rdfs:label "Date et Heure de Détection" ;
+    rdfs:comment "La date et l'heure à laquelle l'anomalie a été détectée." ;
+    rdfs:domain ex:AnomalieDetectee ;
+    rdfs:range xsd:dateTime .
+
+ex:typeAnomalie a rdf:Property ;
+    rdfs:label "Type d'Anomalie" ;
+    rdfs:comment "Le type d'anomalie détectée, par exemple : intrusion, déconnexion." ;
+    rdfs:domain ex:AnomalieDetectee ;
+    rdfs:range xsd:string .
+
+ex:appareilConcerne a rdf:Property ;
+    rdfs:label "Appareil Concerné" ;
+    rdfs:comment "L'appareil IoT spécifique qui est affecté par l'anomalie détectée." ;
+    rdfs:domain ex:AnomalieDetectee ;
+    rdfs:range ex:Device .
+
+ex:mesuresPrises a rdf:Property ;
+    rdfs:label "Mesures Prises" ;
+    rdfs:comment "Les actions ou interventions effectuées en réponse à l'anomalie." ;
+    rdfs:domain ex:AnomalieDetectee ;
+    rdfs:range xsd:string .
+
+ex:aResponsabiliteSur a rdf:Property ;
+    rdfs:label "A Responsabilité Sur" ;
+    rdfs:comment "Indique le rôle ou métier assigné à l'administrateur réseau." ;
+    rdfs:domain ex:Admin_Reseau ;
+    rdfs:range ex:JobRole .
+
+ex:accesDonnees a rdf:Property ;
+    rdfs:label "Accès aux Données" ;
+    rdfs:comment "Indique si le développeur a accès aux données (Oui/Non)." ;
+    rdfs:domain ex:Developpeur ;
+    rdfs:range xsd:boolean .
+
+ex:competencesTechniques a rdf:Property ;
+    rdfs:label "Compétences Techniques" ;
+    rdfs:comment "Compétences techniques du développeur." ;
+    rdfs:domain ex:Developpeur ;
+    rdfs:range xsd:string .
+
+ex:aContribueAuReseau a rdf:Property ;
+    rdfs:label "A Contribué au Réseau" ;
+    rdfs:comment "Indique le réseau IoT auquel le développeur a contribué." ;
+    rdfs:domain ex:Developpeur ;
+    rdfs:range ex:Network .
+
+ex:niveauSecuriteRequis a rdf:Property ;
+    rdfs:label "Niveau de Sécurité Requis" ;
+    rdfs:comment "Niveau de sécurité requis pour les objets connectés utilisés par l'utilisateur." ;
+    rdfs:domain ex:User_IoT ;
+    rdfs:range xsd:string .
+
+ex:outilsSurveillance a rdf:Property ;
+    rdfs:label "Outils de Surveillance Utilisés" ;
+    rdfs:comment "Outils de surveillance utilisés par l'administrateur réseau." ;
+    rdfs:domain ex:Admin_Reseau ;
+    rdfs:range xsd:string .
+
+ex:protocolesSecurite a rdf:Property ;
+    rdfs:label "Protocoles de Sécurité Utilisés" ;
+    rdfs:comment "Protocoles de sécurité appliqués par l'administrateur réseau." ;
+    rdfs:domain ex:Admin_Reseau ;
+    rdfs:range xsd:string .
+
+ex:assureSurveillanceDe a rdf:Property ;
+    rdfs:label "Assure la Surveillance de" ;
+    rdfs:comment "Indique quel appareil ou réseau est sous la surveillance de l'administrateur réseau." ;
+    rdfs:domain ex:Admin_Reseau ;
+    rdfs:range ex:Device .
+
+ex:typeObjetConnecte a rdf:Property ;
+    rdfs:label "Type d'Objet Connecté" ;
+    rdfs:comment "Type d'objet connecté utilisé par l'utilisateur IoT." ;
+    rdfs:domain ex:User_IoT ;
+    rdfs:range xsd:string .
+
+ex:typeReseauGere a rdf:Property ;
+    rdfs:label "Type de Réseau Géré" ;
+    rdfs:comment "Type de réseau supervisé par l'administrateur." ;
+    rdfs:domain ex:Admin_Reseau ;
+    rdfs:range xsd:string .
+
+ex:utilisePar a rdf:Property ;
+    rdfs:label "Utilisé Par" ;
+    rdfs:comment "Indique quel utilisateur IoT utilise l'appareil connecté." ;
+    rdfs:domain ex:Device ;
+    rdfs:range ex:User_IoT .
+
+dcterms:title a rdf:Property ;
+    rdfs:label "Titre" ;
+    rdfs:comment "Titre de l'administrateur réseau.",
+        "Titre de l'utilisateur IoT.",
+        "Titre du développeur." ;
+    rdfs:domain ex:Admin_Reseau,
+        ex:Developpeur,
+        ex:User_IoT ;
+    rdfs:range xsd:string .
+
+foaf:name a rdf:Property ;
+    rdfs:label "Nom" ;
+    rdfs:comment "Nom de l'administrateur de réseau.",
+        "Nom de l'utilisateur IoT.",
+        "Nom du développeur." ;
+    rdfs:domain ex:Admin_Reseau,
+        ex:Developpeur,
+        ex:User_IoT ;
+    rdfs:range xsd:string .
+

@@ -15,25 +15,20 @@
     <div id="diagram-container" class="mermaid"></div>
     
     <script>
-        // URL de l'API Omeka pour récupérer les templates de ressources
         const url = "http://localhost/omk_thyp_24-25/api/resource_templates";
         
-        // Fonction pour convertir les templates en syntaxe Mermaid
         function generateMermaidSyntax(resourceTemplates) {
             let mermaidSyntax = "classDiagram\n";
             const relations = [];
 
             resourceTemplates.forEach(template => {
-                const className = template.label.replace(/\s+/g, "_"); // Remplace les espaces par des underscores pour les noms de classes
-                mermaidSyntax += `    class ${className} {\n`;
+                const className = template.label.replace(/\s+/g, "_");
+                mermaidSyntax += `class ${className} {\n`;
 
-                // Ajoute chaque propriété comme un attribut de la classe
                 template.resource_template_properties.forEach(property => {
                     const propLabel = property.alternate_label || property.property_label;
                     
-                    // Vérifie si la propriété représente une relation avec une autre classe
                     if (propLabel === "aContribueAuReseau" || propLabel === "utilisePar" || propLabel === "assureSurveillanceDe" || propLabel === "appareilConcerne") {
-                        // Trouve la classe liée par le nom de la propriété
                         let relatedClass;
                         switch (propLabel) {
                             case "aContribueAuReseau":
@@ -49,31 +44,29 @@
                                 relatedClass = "AnomalieDetectee";
                                 break;
                         }
-                        relations.push(`${className} --> ${relatedClass}: ${propLabel}`);
+                        if (relatedClass) {
+                            relations.push(`${className} --> ${relatedClass} : ${propLabel}`);
+                        }
                     } else {
-                        mermaidSyntax += `        +${propLabel}: ${property.value_type || "Text"}\n`;
+                        mermaidSyntax += `    +${propLabel}: ${property.value_type || "Text"}\n`;
                     }
                 });
 
-                mermaidSyntax += "    }\n";
+                mermaidSyntax += "}\n";
             });
 
-            // Ajoute les relations entre les classes
             relations.forEach(relation => {
-                mermaidSyntax += `    ${relation}\n`;
+                mermaidSyntax += `${relation}\n`;
             });
 
             return mermaidSyntax;
         }
 
-        // Récupère les templates de ressources avec D3 et génère le diagramme Mermaid
         d3.json(url).then(data => {
             const mermaidSyntax = generateMermaidSyntax(data);
 
-            // Injecte le code Mermaid généré dans le conteneur HTML
             document.getElementById("diagram-container").innerHTML = mermaidSyntax;
 
-            // Recharge Mermaid pour afficher le nouveau diagramme
             mermaid.contentLoaded();
         }).catch(error => {
             console.error("Erreur lors du chargement des données de l'API Omeka:", error);
